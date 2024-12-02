@@ -1,0 +1,76 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* New styles for vertical navbar and main content */
+.layout-container {
+  display: flex; /* Use flexbox to align navbar and main content */
+}
+
+.vertical-navbar {
+  width: 200px; /* Width of the vertical navbar */
+  background-color: #f8f9fa; /* Light background color for the navbar */
+  padding: 20px;
+  position: fixed; /* Fixed positioning to keep it in view */
+  height: 100vh; /* Full viewport height */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+}
+
+.vertical-navbar h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.vertical-navbar ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+}
+
+.vertical-navbar ul li {
+  margin: 15px 0; /* Spacing between items */
+}
+
+.vertical-navbar ul li a {
+  text-decoration: none; /* Remove underline */
+  color: #333; /* Text color */
+  font-size: 18px; /* Font size */
+}
+
+.vertical-navbar ul li a:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+/* Main content styling */
+.main-content {
+  margin-left: 260px; /* Margin to avoid overlap with the navbar */
+  margin-top: 20px; /* Added margin-top for spacing between navbar and content */
+  padding: 20px; /* Padding for content */
+  flex-grow: 1; /* Allow main content to grow */
+}

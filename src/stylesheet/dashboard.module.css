@@ -1,0 +1,85 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center contents horizontally */
+  }
+  
+  .pieChartsRow {
+    display: flex;
+    justify-content: center; /* Center the row contents */
+    flex-wrap: wrap; /* Allow wrapping to multiple rows */
+    gap: 20px; /* Space between items */
+  }
+  
+  .chartContainer {
+    flex: 1 1 calc(50% - 40px); /* Take up 50% of the row, accounting for gap */
+    max-width: 285px; /* Adjusted max width for larger charts */
+    min-width: 250px; /* Adjusted min width */
+    height: 300px; /* Set a fixed height for charts */
+    display: flex; /* Flex to center text inside */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+  }
+  
+  .pieChartTitle {
+    font-size: 15px; /* Smaller title size */
+    text-align: center; /* Center title */
+    width: 100%; /* Make sure it takes full width of the container */
+  }
+  
+  .pieChartLabel {
+    font-size: 10px; /* Smaller font size for labels */
+    text-align: center; /* Center text if needed */
+  }
+  
+  .lineChartContainer {
+    width: 80%; /* Set width for the line chart */
+    height: 300px; /* Height for the line chart */
+    margin-bottom: 40px; /* Add space below the line chart */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the contents */
+  }
+  
+  .dateFilter {
+    display: flex; /* Flexbox for layout */
+    align-items: center; /* Center items vertically */
+  }
+  
+  .dateFilter label {
+    margin-right: 10px; /* Space between labels and inputs */
+  }
+  
+  .dateFilter input {
+    margin-right: 20px; /* Space between input fields */
+  }
+  
+  .totals {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-around; /* Space between items */
+    align-items: center; /* Center items vertically */
+    width: 100%;
+  }
+  
+  .totalItem {
+    flex: 1; /* Allow items to grow equally */
+    text-align: center; /* Center text in each item */
+  }
+  
+  h3 {
+    text-align: center; /* Center the headings */
+    margin-bottom: 10px; /* Add space below the headings */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .chartContainer {
+      flex: 1 1 100%; /* Each chart takes full width on narrow screens */
+      max-width: 100%; /* Allow charts to expand fully */
+    }
+  
+    .lineChartContainer {
+      width: 100%; /* Full width for the line chart */
+    }
+  }
+  

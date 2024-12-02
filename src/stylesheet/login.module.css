@@ -1,0 +1,89 @@
+/* login.module.css */
+.login-body {
+  height: 100vh; /* Full-page height */
+  margin: 0; /* Remove default margin */
+  background: url('./loginbg.png') no-repeat center center fixed; /* Set background */
+  background-size: cover; /* Ensure the background covers the viewport */
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+  padding: 50px; /* Add more padding for a spacious look */
+  border-radius: 10px; /* Slightly rounder corners */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25); /* Larger shadow for depth */
+  max-width: 600px; /* Increase maximum width */
+  width: 90%; /* Make it responsive */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px; /* Add more spacing below the heading */
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 25px; /* Increase spacing between input groups */
+}
+
+label {
+  display: block;
+  margin-bottom: 8px; /* Slightly increase label spacing */
+  color: #666;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%; /* Ensure inputs are consistent in width */
+  padding: 12px; /* Increase padding for a larger input box */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.btn {
+  background: #007bff;
+  color: #fff;
+  padding: 12px; /* Increase button padding */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px; /* Increase font size for better visibility */
+}
+
+.btn:hover {
+  background: #0056b3;
+}
+
+.extra-links {
+  text-align: center;
+  margin-top: 20px; /* Add more space above links */
+}
+
+.extra-links a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px; /* Slightly larger font size for better readability */
+}
+
+.extra-links a:hover {
+  text-decoration: underline;
+}

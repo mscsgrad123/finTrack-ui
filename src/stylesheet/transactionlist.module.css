@@ -1,0 +1,167 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 10px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.formPopup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formPopup form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Fixed width for form */
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.income {
+  color: green;
+}
+
+.expense {
+  color: red;
+}
+
+.addButton {
+  background-color: #4caf50; /* Green */
+}
+
+.downloadButton {
+  background-color: #2196F3; /* Blue */
+}
+
+.editButton {
+  background-color: #ff9800; /* Orange */
+}
+
+.deleteButton {
+  background-color: #f44336; /* Red */
+}
+
+.cancelButton {
+  background-color: #999; /* Grey */
+}
+
+/* Updated styles for filter and button layout */
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ensure space between elements */
+  margin-bottom: 20px; /* Space below the button group */
+  flex-wrap: wrap; /* Allow wrapping if space is limited */
+}
+
+.filterSection {
+  display: flex;
+  align-items: center; /* Align filters vertically in the center */
+  flex-grow: 1; /* Allow the filter section to take up available space */
+}
+
+.filterSection label {
+  margin: 0 10px 0 0; /* Adjusted margin for labels */
+}
+
+.filterSection select,
+.filterSection input {
+  margin: 0 10px; /* Adjusted margin for inputs */
+  flex-grow: 1; /* Allow inputs to take up available space */
+}
+
+.buttonSection {
+  display: flex; /* Ensure buttons are in a row */
+  flex-grow: 0; /* Prevent buttons from stretching */
+}
+
+/* Pagination styles */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #4caf50; /* Green */
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+.pagination .activePage {
+  background-color: #010c01; /* Darker green for active page */
+  font-weight: bold;
+}

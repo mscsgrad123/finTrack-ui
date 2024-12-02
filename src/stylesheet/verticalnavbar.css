@@ -1,0 +1,39 @@
+.vertical-navbar {
+    width: 200px; /* Adjust the width as needed */
+    background-color: #000000; /* Light background color */
+    padding: 20px;
+    position: fixed; /* Fixed position to stay on the side */
+    height: 100%; /* Full height */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  }
+  
+  .vertical-navbar h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .vertical-navbar ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+  }
+  
+  .vertical-navbar ul li {
+    margin: 15px 0; /* Spacing between items */
+  }
+  
+  .vertical-navbar ul li a {
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Text color */
+    font-size: 18px; /* Font size */
+  }
+  
+  .vertical-navbar ul li a:hover {
+    color: #007bff; /* Change color on hover */
+  }
+  
+  .main-content {
+    margin-left: 220px; /* Margin to avoid overlap with the navbar */
+    padding: 20px; /* Padding for content */
+  }
+  
