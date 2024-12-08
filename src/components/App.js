@@ -3,12 +3,11 @@ import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom";
 import SignUp from "./Signup";
 import Login from "./Login";
 import Home from "./Home";
-import VerticalNavbar from "./VerticalNavBar";
 import "../stylesheet/app.css";
 import TransactionList from "./TransactionList";
 import Budgets from "./Budgets";
 import Dashboard from "./Dashboard";
-import HorizontalNavbar from "./HorizantalNavBar";
+import Profile from "./Profile";
 
 export default function App() {
   return (
@@ -25,6 +24,7 @@ export default function App() {
           <Route path="transactions" element={<TransactionList />} />
           <Route path="budgets" element={<Budgets />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
           {/* Add more routes here if needed */}
         </Route>
       </Routes>
@@ -68,7 +68,7 @@ function Layout() {
               </Link>
             </li>
             <li>
-              <Link to="# " onClick={handleLinkClick}>
+              <Link to="/profile" onClick={handleLinkClick}>
                 Profile
               </Link>
             </li>

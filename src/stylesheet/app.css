@@ -41,7 +41,7 @@
   justify-content: space-between; /* Space out items */
   align-items: center; /* Center vertically */
   background-color: #000; /* Navbar background color */
-  padding: 10px 20px; /* Padding for the navbar */
+  padding: 0px 10px; /* Padding for the navbar */
   width: 100%; /* Full width to prevent scrolling */
   box-sizing: border-box; /* Ensure padding is included in width */
   overflow: hidden; /* Prevent overflow */
@@ -119,6 +119,7 @@
   .horizontal-navbar {
     flex-direction: column; /* Stack items vertically */
     align-items: flex-start; /* Align items to the start */
+    padding: 0px 0px;
   }
 
   .horizontal-navbar h2 {
@@ -146,13 +147,3 @@
   }
 }
 
-/* Additional Media Queries for Larger Screens */
-@media (min-width: 769px) {
-  .horizontal-navbar ul li {
-    margin: 0 15px; /* Reset margin for larger screens */
-  }
-
-  .horizontal-navbar ul li a {
-    font-size: 18px; /* Reset link size for larger screens */
-  }
-}

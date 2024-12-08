@@ -1,18 +1,13 @@
 // Budgets.js
 import React, { useState } from "react";
 import styles from "../stylesheet/budgets.module.css";
+import { mockCategories, mockPaymentMethods } from "./MockData";
 
 const Budgets = () => {
   const [categoryBudgets, setCategoryBudgets] = useState({});
   const [paymentMethodBudgets, setPaymentMethodBudgets] = useState({});
-  const categories = [
-    "Food",
-    "Transport",
-    "Utilities",
-    "Entertainment",
-    "Groceries",
-  ]; // Example categories
-  const paymentMethods = ["Credit Card", "Debit Card", "Cash", "Bank Transfer"]; // Example payment methods
+  const categories = mockCategories;
+  const paymentMethods = mockPaymentMethods;
 
   const handleCategoryBudgetChange = (category, value) => {
     setCategoryBudgets((prev) => ({

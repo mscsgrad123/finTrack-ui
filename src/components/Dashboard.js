@@ -14,12 +14,13 @@ import {
 Chart.register(ChartDataLabels);
 
 const pieChartOptions = {
+  responsive: true,
   plugins: {
     legend: {
-      position: "right",
+      position: "top",
       align: "center",
       labels: {
-        boxWidth: 15,
+        boxWidth: 10,
         font: {
           size: 12,
         },
@@ -52,6 +53,8 @@ const Dashboard = () => {
     last30Days.toISOString().split("T")[0]
   );
   const [endDate, setEndDate] = useState(today.toISOString().split("T")[0]);
+
+  const [selectedChart, setSelectedChart] = useState("line");
 
   // Function to get greeting based on the time of day
   const getGreeting = () => {
@@ -89,6 +92,15 @@ const Dashboard = () => {
 
   const totals = calculateTotals();
 
+  const generateColors = (numColors) => {
+    const colors = [];
+    for (let i = 0; i < numColors; i++) {
+      const hue = Math.floor((360 / numColors) * i); // Distribute hues evenly
+      colors.push(`hsl(${hue}, 70%, 60%)`); // Create colors in HSL format
+    }
+    return colors;
+  };
+
   const calculateExpensesByCategory = () => {
     const expenseTotals = categories.reduce(
       (acc, category) => ({ ...acc, [category]: 0 }),
@@ -99,12 +111,13 @@ const Dashboard = () => {
         expenseTotals[category] += amount;
       }
     });
+    const colors = generateColors(Object.keys(expenseTotals).length);
     return {
       labels: Object.keys(expenseTotals),
       datasets: [
         {
           data: Object.values(expenseTotals),
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+          backgroundColor: colors,
         },
       ],
     };
@@ -120,12 +133,13 @@ const Dashboard = () => {
         paymentTotals[paymentMethod] += amount;
       }
     });
+    const colors = generateColors(Object.keys(paymentTotals).length);
     return {
       labels: Object.keys(paymentTotals),
       datasets: [
         {
           data: Object.values(paymentTotals),
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+          backgroundColor: colors,
         },
       ],
     };
@@ -141,12 +155,13 @@ const Dashboard = () => {
         incomeTotals[category] += amount;
       }
     });
+    const colors = generateColors(Object.keys(incomeTotals).length);
     return {
       labels: Object.keys(incomeTotals),
       datasets: [
         {
           data: Object.values(incomeTotals),
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+          backgroundColor: colors,
         },
       ],
     };
@@ -162,12 +177,13 @@ const Dashboard = () => {
         incomePaymentTotals[paymentMethod] += amount;
       }
     });
+    const colors = generateColors(Object.keys(incomePaymentTotals).length);
     return {
       labels: Object.keys(incomePaymentTotals),
       datasets: [
         {
           data: Object.values(incomePaymentTotals),
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+          backgroundColor: colors,
         },
       ],
     };
@@ -198,20 +214,64 @@ const Dashboard = () => {
     };
   };
 
+  const renderSelectedChart = () => {
+    const chart = () => {
+      switch (selectedChart) {
+        case "expensesByCategory":
+          return (
+            <Pie
+              data={calculateExpensesByCategory()}
+              options={pieChartOptions}
+            />
+          );
+        case "expensesByPaymentMethod":
+          return (
+            <Pie
+              data={calculateExpensesByPaymentMethod()}
+              options={pieChartOptions}
+            />
+          );
+        case "incomeByCategory":
+          return (
+            <Pie data={calculateIncomeByCategory()} options={pieChartOptions} />
+          );
+        case "incomeByPaymentMethod":
+          return (
+            <Pie
+              data={calculateIncomeByPaymentMethod()}
+              options={pieChartOptions}
+            />
+          );
+        case "line":
+        default:
+          return <Line data={calculateExpensesOverTime()} />;
+      }
+    };
+    return <div className={styles.chartItem}>{chart()}</div>;
+  };
+
+  // const chartOptions = [
+  //   "expensesByCategory",
+  //   "IncomeByCategory",
+  //   "expensesByPaymentMethod",
+  //   "incomeByPaymentMethod",
+  //   "line",
+  // ];
+
   return (
     <div className={styles.dashboard}>
       <h2>
         {getGreeting()} Your Financial Analysis during the following time period
       </h2>
       <div className={styles.dateFilter}>
-        <label htmlFor="startDate">Start Date:</label>
+        <label htmlFor="startDate">From:</label>
         <input
           id="startDate"
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
         />
-        <label htmlFor="endDate">End Date:</label>
+        <label htmlFor="endDate">To:</label>
         <input
           id="endDate"
           type="date"
@@ -226,41 +286,27 @@ const Dashboard = () => {
             Net:${totals.netIncome}
           </h4>
         </div>
-        {/* <div className={styles.totalItem}>
-          <h4>Expenses: ${totals.totalExpenses}</h4>
-        </div>
-        <div className={styles.totalItem}>
-          <h4>Net:${totals.netIncome}</h4>
-        </div> */}
       </div>
-      <div className={styles.pieChartsRow}>
-        <div className={styles.chartContainer}>
-          <h3 className={styles.pieChartTitle}>Expenses by Category</h3>
-          <Pie data={calculateExpensesByCategory()} options={pieChartOptions} />
-        </div>
-        <div className={styles.chartContainer}>
-          <h3 className={styles.pieChartTitle}>Expenses by Payment Method</h3>
-          <Pie
-            data={calculateExpensesByPaymentMethod()}
-            options={pieChartOptions}
-          />
-        </div>
-        <div className={styles.chartContainer}>
-          <h3 className={styles.pieChartTitle}>Income by Category</h3>
-          <Pie data={calculateIncomeByCategory()} options={pieChartOptions} />
-        </div>
-        <div className={styles.chartContainer}>
-          <h3 className={styles.pieChartTitle}>Income by Payment Method</h3>
-          <Pie
-            data={calculateIncomeByPaymentMethod()}
-            options={pieChartOptions}
-          />
-        </div>
+
+      <div className={styles.chartFilter}>
+        <label htmlFor="chartSelect">Analysis Chart:</label>
+        <select
+          id="chartSelect"
+          value={selectedChart}
+          onChange={(e) => setSelectedChart(e.target.value)}
+        >
+          <option value="line">Expenses Over Time</option>
+          <option value="expensesByCategory">Expenses by Category</option>
+          <option value="expensesByPaymentMethod">
+            Expenses by Payment Method
+          </option>
+          <option value="incomeByCategory">Income by Category</option>
+          <option value="incomeByPaymentMethod">
+            Income by Payment Method
+          </option>
+        </select>
       </div>
-      <div className={styles.lineChartContainer}>
-        <h3>Expenses Over Time</h3>
-        <Line data={calculateExpensesOverTime()} />
-      </div>
+      <div className={styles.chartContainer}>{renderSelectedChart()}</div>
     </div>
   );
 };
