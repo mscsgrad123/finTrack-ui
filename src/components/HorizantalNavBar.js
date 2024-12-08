@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../stylesheet/verticalnavbar.css"; // Import CSS for styling
+import "../stylesheet/horizantalnavbar.module.css";
 
-const VerticalNavbar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false); // State to manage navbar visibility
+const HorizontalNavbar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(true); // State for navbar collapse
 
   const toggleNavbar = () => {
-    setIsCollapsed(!isCollapsed);
+    setIsCollapsed((prev) => !prev); // Toggle collapse state
   };
 
   return (
-    <nav className={`vertical-navbar ${isCollapsed ? "collapsed" : ""}`}>
+    <nav className="horizontal-navbar">
+      <h2>Fin Track</h2>
       <button className="toggle-button" onClick={toggleNavbar}>
-        {isCollapsed ? "☰" : "✖"}
+        {isCollapsed ? "☰" : "✖"} {/* Toggle icon */}
       </button>
-      <h2 className={isCollapsed ? "hidden" : ""}>Fin Track</h2>
-      <ul className={isCollapsed ? "hidden" : ""}>
+      <ul>
         <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>
@@ -33,4 +33,4 @@ const VerticalNavbar = () => {
   );
 };
 
-export default VerticalNavbar;
+export default HorizontalNavbar;

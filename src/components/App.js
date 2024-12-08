@@ -1,13 +1,14 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom";
 import SignUp from "./Signup";
 import Login from "./Login";
 import Home from "./Home";
-import VerticalNavbar from "./VerticalNavBar"; // Import your VerticalNavbar component
+import VerticalNavbar from "./VerticalNavBar";
 import "../stylesheet/app.css";
 import TransactionList from "./TransactionList";
 import Budgets from "./Budgets";
 import Dashboard from "./Dashboard";
+import HorizontalNavbar from "./HorizantalNavBar";
 
 export default function App() {
   return (
@@ -32,13 +33,49 @@ export default function App() {
 }
 
 function Layout() {
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth <= 768);
+
+  const toggleNavbar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const handleLinkClick = () => {
+    setIsCollapsed(window.innerWidth <= 768);
+  };
+
   return (
     <div className="layout-container">
-      <VerticalNavbar /> {/* Use the VerticalNavbar component here */}
-      <p />
-      <main className="main-content">
-        <Outlet />
-      </main>
+      <nav className="horizontal-navbar">
+        <h2>Fin Track</h2>
+        <button className="toggle-button" onClick={toggleNavbar}>
+          {isCollapsed ? "☰" : "✖"} Fin Track
+        </button>
+        <div className={`navbar-items ${isCollapsed ? "collapsed" : ""}`}>
+          <ul>
+            <li>
+              <Link to="/dashboard" onClick={handleLinkClick}>
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link to="/transactions" onClick={handleLinkClick}>
+                Transactions
+              </Link>
+            </li>
+            <li>
+              <Link to="/budgets" onClick={handleLinkClick}>
+                Budgets
+              </Link>
+            </li>
+            <li>
+              <Link to="# " onClick={handleLinkClick}>
+                Profile
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <Outlet />
     </div>
   );
 }

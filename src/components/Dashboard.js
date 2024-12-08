@@ -221,14 +221,17 @@ const Dashboard = () => {
       </div>
       <div className={styles.totals}>
         <div className={styles.totalItem}>
-          <h4>Total Income: ${totals.totalIncome}</h4>
+          <h4>
+            Income: ${totals.totalIncome} | Expenses: ${totals.totalExpenses} |
+            Net:${totals.netIncome}
+          </h4>
+        </div>
+        {/* <div className={styles.totalItem}>
+          <h4>Expenses: ${totals.totalExpenses}</h4>
         </div>
         <div className={styles.totalItem}>
-          <h4>Total Expenses: ${totals.totalExpenses}</h4>
-        </div>
-        <div className={styles.totalItem}>
-          <h4>Net Income: ${totals.netIncome}</h4>
-        </div>
+          <h4>Net:${totals.netIncome}</h4>
+        </div> */}
       </div>
       <div className={styles.pieChartsRow}>
         <div className={styles.chartContainer}>

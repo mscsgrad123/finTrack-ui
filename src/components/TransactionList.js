@@ -7,18 +7,21 @@ import {
 } from "./MockData";
 
 const TransactionList = () => {
-  const [transactions, setTransactions] = useState(mockTransactions);
+  const sortedMockTransactions = [...mockTransactions].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+  const [transactions, setTransactions] = useState(sortedMockTransactions);
+  const [categories] = useState(mockCategories);
+  const [paymentMethods] = useState(mockPaymentMethods);
   const [formData, setFormData] = useState({
     id: null,
     date: "",
-    category: "",
+    category: categories[0] || "",
     amount: "",
-    paymentMethod: "",
+    paymentMethod: paymentMethods[0] || "",
     notes: "",
     type: "expense", // Updated to use 'type'
   });
-  const [categories] = useState(mockCategories);
-  const [paymentMethods] = useState(mockPaymentMethods);
   const [isEditing, setIsEditing] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false); // Track visibility of the form
 
@@ -30,6 +33,8 @@ const TransactionList = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const transactionsPerPage = 20;
 
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -37,19 +42,37 @@ const TransactionList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (isNaN(formData.amount) || formData.amount <= 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    if (!formData.category || !formData.paymentMethod) {
+      alert("Please select both a category and a payment method.");
+      return;
+    }
+
     if (isEditing) {
-      setTransactions(
-        transactions.map((transaction) =>
-          transaction.id === formData.id ? formData : transaction
-        )
+      const updatedTransactions = transactions.map((transaction) =>
+        transaction.id === formData.id ? formData : transaction
       );
+      setTransactions(
+        updatedTransactions.sort((a, b) => new Date(b.date) - new Date(a.date))
+      );
+      setSuccessMessage("Transaction updated successfully!");
     } else {
       const newTransaction = {
         ...formData,
         id: transactions.length + 1,
         amount: parseFloat(formData.amount),
       };
-      setTransactions([...transactions, newTransaction]);
+      setTransactions(
+        [...transactions, newTransaction].sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        )
+      );
+      setSuccessMessage("Transaction added successfully!");
     }
     resetForm();
   };
@@ -64,20 +87,27 @@ const TransactionList = () => {
     setTransactions(
       transactions.filter((transaction) => transaction.id !== id)
     );
+    setSuccessMessage("Transaction deleted successfully!");
+    setTimeout(() => {
+      setSuccessMessage(""); // Clear message after 3 seconds
+    }, 3000);
   };
 
   const resetForm = () => {
     setFormData({
       id: null,
       date: "",
-      category: "",
+      category: categories[0] || "",
       amount: "",
-      paymentMethod: "",
+      paymentMethod: paymentMethods[0] || "",
       notes: "",
       type: "expense", // Updated to use 'type'
     });
     setIsEditing(false);
     setIsFormVisible(false); // Hide the form after resetting
+    setTimeout(() => {
+      setSuccessMessage(""); // Clear message after 3 seconds
+    }, 3000);
   };
 
   const downloadCSV = () => {
@@ -120,7 +150,7 @@ const TransactionList = () => {
 
       return matchesCategory && matchesPaymentMethod && matchesDateRange;
     })
-    .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date
+    .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date
 
   // Pagination logic
   const paginatedTransactions = filteredTransactions.slice(
@@ -133,7 +163,7 @@ const TransactionList = () => {
   const formattedToday = today.toISOString().split("T")[0]; // YYYY-MM-DD
 
   return (
-    <div>
+    <div className={styles.tableWrapper}>
       <h2>Transaction Log</h2>
       {/* Button Group Section */}
       <div className={styles.buttonGroup}>
@@ -194,6 +224,9 @@ const TransactionList = () => {
         </div>
       </div>
 
+      {successMessage && (
+        <div className={styles.successMessage}>{successMessage}</div>
+      )}
       {/* Form Popup */}
       {isFormVisible && (
         <div className={styles.formPopup}>
@@ -281,10 +314,9 @@ const TransactionList = () => {
         <thead>
           <tr>
             <th>Date</th>
-            <th>Type</th>
+            <th>Amount</th>
             <th>Category</th>
             <th>Payment Method</th>
-            <th>Amount</th>
             <th>Notes</th>
             <th>Actions</th>
           </tr>
@@ -293,9 +325,6 @@ const TransactionList = () => {
           {paginatedTransactions.map((transaction) => (
             <tr key={transaction.id}>
               <td>{transaction.date}</td>
-              <td>{transaction.type}</td>
-              <td>{transaction.category}</td>
-              <td>{transaction.paymentMethod}</td>
               <td
                 className={
                   transaction.type === "income" ? styles.income : styles.expense
@@ -305,6 +334,8 @@ const TransactionList = () => {
                   ? `+${transaction.amount}`
                   : `-${transaction.amount}`}
               </td>
+              <td>{transaction.category}</td>
+              <td>{transaction.paymentMethod}</td>
               <td>{transaction.notes}</td>
               <td>
                 <button

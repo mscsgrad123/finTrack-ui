@@ -1,0 +1,45 @@
+.horizontal-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .toggle-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+  }
+  
+  .navbar-items {
+    display: flex; /* Display items in a row */
+    flex-wrap: nowrap; /* Prevent wrapping */
+  }
+  
+  .navbar-items.collapsed {
+    display: none; /* Hide items when collapsed */
+  }
+  
+  /* Media Queries for Responsiveness */
+  @media (max-width: 768px) {
+    .toggle-button {
+      display: block; /* Show toggle button on small screens */
+    }
+  
+    .navbar-items {
+      flex-direction: column; /* Stack items vertically */
+      width: 100%; /* Full width for items */
+    }
+    
+    .navbar-items.collapsed {
+      display: none; /* Hide items when collapsed */
+    }
+  }
+  

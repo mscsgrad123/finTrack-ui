@@ -28,49 +28,131 @@
   color: #61dafb;
 }
 
-/* New styles for vertical navbar and main content */
+/* New styles for horizontal navbar and main content */
 .layout-container {
   display: flex; /* Use flexbox to align navbar and main content */
+  flex-direction: column; /* Keep the layout in column direction */
+  width: 100%; /* Ensure full width */
+  box-sizing: border-box; /* Include padding and border in width calculations */
 }
 
-.vertical-navbar {
-  width: 200px; /* Width of the vertical navbar */
-  background-color: #f8f9fa; /* Light background color for the navbar */
-  padding: 20px;
-  position: fixed; /* Fixed positioning to keep it in view */
-  height: 100vh; /* Full viewport height */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+.horizontal-navbar {
+  display: flex;
+  justify-content: space-between; /* Space out items */
+  align-items: center; /* Center vertically */
+  background-color: #000; /* Navbar background color */
+  padding: 10px 20px; /* Padding for the navbar */
+  width: 100%; /* Full width to prevent scrolling */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  overflow: hidden; /* Prevent overflow */
+  position: relative; /* Relative position to avoid overlap with main content */
 }
 
-.vertical-navbar h2 {
-  margin-bottom: 20px;
+.toggle-button {
+  background: none;
+  border: none;
+  color: white;
   font-size: 24px;
-  text-align: center;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+  outline: none;
 }
 
-.vertical-navbar ul {
+/* Prevent focus outline when button is clicked */
+.toggle-button:focus {
+  outline: none; /* Remove the outline */
+}
+
+.navbar-items {
+  display: flex; /* Display items in a row */
+  flex-wrap: nowrap; /* Prevent wrapping */
+}
+
+.navbar-items.collapsed {
+  display: none; /* Hide items when collapsed */
+}
+
+
+/* Adjust title and links for smaller screens */
+.horizontal-navbar h2 {
+  color: white; /* Navbar title color */
+  font-size: 1.5rem; /* Adjust title size */
+}
+
+.horizontal-navbar ul {
   list-style-type: none; /* Remove bullet points */
   padding: 0; /* Remove default padding */
+  display: flex; /* Use flexbox for horizontal layout */
+  flex-wrap: nowrap; /* Prevent wrapping to avoid scrolling */
 }
 
-.vertical-navbar ul li {
-  margin: 15px 0; /* Spacing between items */
+.horizontal-navbar ul li {
+  margin: 0 15px; /* Spacing between items */
 }
 
-.vertical-navbar ul li a {
+.horizontal-navbar ul li a {
   text-decoration: none; /* Remove underline */
-  color: #333; /* Text color */
+  color: white; /* Text color */
   font-size: 18px; /* Font size */
 }
 
-.vertical-navbar ul li a:hover {
+.horizontal-navbar ul li a:hover {
   color: #007bff; /* Change color on hover */
 }
 
-/* Main content styling */
-.main-content {
-  margin-left: 260px; /* Margin to avoid overlap with the navbar */
-  margin-top: 20px; /* Added margin-top for spacing between navbar and content */
-  padding: 20px; /* Padding for content */
-  flex-grow: 1; /* Allow main content to grow */
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+
+  .toggle-button {
+    display: block; /* Show toggle button on small screens */
+  }
+
+  .navbar-items {
+    flex-direction: column; /* Stack items vertically */
+    width: 100%; /* Full width for items */
+  }
+  
+  .navbar-items.collapsed {
+    display: none; /* Hide items when collapsed */
+  }
+
+  .horizontal-navbar {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+  }
+
+  .horizontal-navbar h2 {
+    font-size: 1.2rem; /* Smaller title size on mobile */
+    margin-bottom: 10px; /* Space below the title */
+  }
+
+  .horizontal-navbar ul {
+    flex-direction: column; /* Stack links vertically */
+    width: 100%; /* Full width for mobile */
+  }
+
+  .horizontal-navbar ul li {
+    margin: 5px 0; /* Space between items */
+    width: 100%; /* Full width for mobile links */
+    text-align: center; /* Center text */
+  }
+
+  .horizontal-navbar ul li a {
+    font-size: 16px; /* Adjust link size for mobile */
+  }
+
+  .horizontal-navbar h2 {
+    display: none; /* Hide the header title */
+  }
+}
+
+/* Additional Media Queries for Larger Screens */
+@media (min-width: 769px) {
+  .horizontal-navbar ul li {
+    margin: 0 15px; /* Reset margin for larger screens */
+  }
+
+  .horizontal-navbar ul li a {
+    font-size: 18px; /* Reset link size for larger screens */
+  }
 }
