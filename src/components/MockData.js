@@ -7,7 +7,7 @@ const generateTransaction = (id, isExpense, category, paymentMethod, date) => ({
   type: isExpense ? "expense" : "income",
   paymentMethod,
   date,
-  notes: `Sample note for transaction ${id}`, // Add notes for the transaction
+  description: `Sample note for transaction ${id}`, // Add notes for the transaction
 });
 
 const categories = ["Food", "Transport", "Entertainment", "Utilities"];
@@ -23,7 +23,14 @@ const createTransactionsForMonths = (months) => {
 
     // Generate 25 expenses and 25 income transactions for each month
     for (let j = 0; j < 25; j++) {
-      const day = Math.floor(Math.random() * 28) + 1; // Random day between 1 and 28
+      let day;
+      if (i === 0) {
+        // If it's the current month, limit days to before today
+        day = Math.floor(Math.random() * (today.getDate() - 1)) + 1; // Random day between 1 and (today - 1)
+      } else {
+        // For past months, allow any day between 1 and 28
+        day = Math.floor(Math.random() * 28) + 1;
+      }
       const date = new Date(monthDate.getFullYear(), monthDate.getMonth(), day)
         .toISOString()
         .split("T")[0];

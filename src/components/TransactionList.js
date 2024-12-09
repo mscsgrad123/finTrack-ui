@@ -19,7 +19,7 @@ const TransactionList = () => {
     category: categories[0] || "",
     amount: "",
     paymentMethod: paymentMethods[0] || "",
-    notes: "",
+    description: "",
     type: "expense", // Updated to use 'type'
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -100,7 +100,7 @@ const TransactionList = () => {
       category: categories[0] || "",
       amount: "",
       paymentMethod: paymentMethods[0] || "",
-      notes: "",
+      description: "",
       type: "expense", // Updated to use 'type'
     });
     setIsEditing(false);
@@ -120,7 +120,7 @@ const TransactionList = () => {
               transaction.paymentMethod
             },${transaction.type === "income" ? "+" : "-"}${
               transaction.amount
-            },${transaction.notes}`
+            },${transaction.description}`
         )
         .join("\n");
 
@@ -290,8 +290,8 @@ const TransactionList = () => {
 
             <label>Notes</label>
             <textarea
-              name="notes"
-              value={formData.notes}
+              name="description"
+              value={formData.description}
               onChange={handleInputChange}
             ></textarea>
 
@@ -336,7 +336,7 @@ const TransactionList = () => {
               </td>
               <td>{transaction.category}</td>
               <td>{transaction.paymentMethod}</td>
-              <td>{transaction.notes}</td>
+              <td>{transaction.description}</td>
               <td>
                 <button
                   className={styles.editButton}

@@ -50,23 +50,6 @@ const Budgets = () => {
         ))}
       </div>
 
-      <div className={styles.budgetSection}>
-        <h3>Payment Method Budgets</h3>
-        {paymentMethods.map((method) => (
-          <div key={method} className={styles.budgetItem}>
-            <label>{method}:</label>
-            <input
-              type="number"
-              placeholder="Enter budget"
-              value={paymentMethodBudgets[method] || ""}
-              onChange={(e) =>
-                handlePaymentMethodBudgetChange(method, e.target.value)
-              }
-            />
-          </div>
-        ))}
-      </div>
-
       <button onClick={handleSaveBudgets}>Save Budgets</button>
     </div>
   );
