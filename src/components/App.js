@@ -14,6 +14,7 @@ export default function App() {
   useEffect(() => {
     // Check for `code` in the URL or existing token in localStorage
     console.log("Client ID:", process.env.REACT_APP_CLIENT_ID);
+    console.log(oauthConfig.redirectUri);
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
