@@ -1,72 +1,86 @@
-// Budgets.js
 import React, { useState, useEffect } from "react";
 import styles from "../stylesheet/budgets.module.css";
-import { mockCategories, mockPaymentMethods } from "./MockData";
-import { jwtDecode } from "jwt-decode";
+import { mockCategories, mockTransactions, mockCatBudgets } from "./MockData";
 
 const Budgets = ({ userId }) => {
-  const [categoryBudgets, setCategoryBudgets] = useState({});
-  const categories = mockCategories;
-  const [isLoading, setIsLoading] = useState(true);
+  const [categoryBudgets, setCategoryBudgets] = useState(mockCatBudgets);
+  const [monthlyExpenses, setMonthlyExpenses] = useState({});
+  const [notifications, setNotifications] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState(null);
 
+  const categories = mockCategories;
+
+  // Calculate current month's expenses by category
+  useEffect(() => {
+    const expensesByCategory = {};
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+
+    mockTransactions.forEach((transaction) => {
+      const transactionDate = new Date(transaction.date);
+      if (
+        transaction.type === "expense" &&
+        transactionDate.getMonth() === currentMonth &&
+        transactionDate.getFullYear() === currentYear
+      ) {
+        expensesByCategory[transaction.category] =
+          (expensesByCategory[transaction.category] || 0) + transaction.amount;
+      }
+    });
+
+    setMonthlyExpenses(expensesByCategory);
+
+    // Generate notifications after calculating expenses
+    const newNotifications = [];
+    for (const category in mockCatBudgets) {
+      if (
+        mockCatBudgets[category] &&
+        expensesByCategory[category] &&
+        expensesByCategory[category] > mockCatBudgets[category]
+      ) {
+        newNotifications.push(
+          `Your expenses for ${category} this month (${expensesByCategory[category]}) have exceeded your initial budget of ${mockCatBudgets[category]}!`
+        );
+      }
+    }
+
+    setNotifications(newNotifications);
+  }, []); // Empty dependency array to run once on mount
+
+  // Handle budget input changes
   const handleCategoryBudgetChange = (category, value) => {
     setCategoryBudgets((prev) => ({
       ...prev,
-      [category]: value,
+      [category]: parseFloat(value) || 0,
     }));
   };
 
-  const handleSaveBudgets = async () => {
-    const budgetsToSave = Object.entries(categoryBudgets).map(
-      ([category, amount]) => ({
-        category,
-        amount: parseFloat(amount),
-        userId: 1,
-      })
-    );
+  // Handle save budgets and generate notifications
+  const handleSaveBudgets = () => {
+    const newNotifications = [];
+    for (const category in categoryBudgets) {
+      if (
+        categoryBudgets[category] &&
+        monthlyExpenses[category] &&
+        monthlyExpenses[category] > categoryBudgets[category]
+      ) {
+        newNotifications.push(
+          `Your expenses for ${category} this month (${monthlyExpenses[category]}) have exceeded your updated budget of ${categoryBudgets[category]}!`
+        );
+      }
+    }
 
-    // try {
-    //   const response = await fetch(
-    //     "http://localhost:8080/api/budgets/save?userId=" + userId,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(budgetsToSave),
-    //     }
-    //   );
-
-    //   if (response.ok) {
-    //     console.log("Budgets saved successfully.");
-    //     setIsEditing(false);
-    //   } else {
-    //     console.error("Failed to save budgets:", response.status);
-    //     setError("Failed to save budgets. Please try again later.");
-    //   }
-    // } catch (err) {
-    //   console.error("Error saving budgets:", err);
-    //   setError("Failed to save budgets. Please try again later.");
-    // }
-    setIsEditing(false);
+    setNotifications(newNotifications);
+    setIsEditing(false); // Exit editing mode
   };
-
-  // if (isLoading) {
-  //   return <div>Loading budgets...</div>;
-  // }
-
-  if (error) {
-    return <div className={styles.error}>{error}</div>;
-  }
 
   return (
     <div className={styles.budgetsContainer}>
       <h2>Set Budgets</h2>
 
       <div className={styles.budgetSection}>
-        <h3>Category Budgets</h3>
+        <h3>Budgets and Expenses</h3>
         {categories.map((category) => (
           <div key={category} className={styles.budgetItem}>
             <label>{category}:</label>
@@ -79,6 +93,9 @@ const Budgets = ({ userId }) => {
               }
               disabled={!isEditing}
             />
+            <span className={styles.expenses}>
+              Total Expenses: {monthlyExpenses[category] || 0}
+            </span>
           </div>
         ))}
       </div>
@@ -86,8 +103,21 @@ const Budgets = ({ userId }) => {
       {!isEditing ? (
         <button onClick={() => setIsEditing(true)}>Edit Budgets</button>
       ) : (
-        <button onClick={handleSaveBudgets}>Save Budgets</button>
+        <button onClick={handleSaveBudgets}>Submit</button>
       )}
+
+      <div className={styles.notificationSection}>
+        <h3>Notifications</h3>
+        {notifications.length > 0 ? (
+          notifications.map((note, index) => (
+            <div key={index} className={styles.notification}>
+              {note}
+            </div>
+          ))
+        ) : (
+          <p>No notifications</p>
+        )}
+      </div>
     </div>
   );
 };

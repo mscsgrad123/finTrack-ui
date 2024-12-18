@@ -63,3 +63,9 @@ const createTransactionsForMonths = (months) => {
 export const mockTransactions = createTransactionsForMonths(3); // Generate transactions for the last 3 months
 export const mockCategories = categories; // Export categories as mockCategories
 export const mockPaymentMethods = paymentMethods; // Export payment methods as mockPaymentMethods
+export const mockCatBudgets = {
+  Food: 500,
+  Transport: 500,
+  Entertainment: 500,
+  Utilities: 10,
+};
