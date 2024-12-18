@@ -13,8 +13,7 @@ export default function App() {
   const [userId, setUserId] = useState();
   useEffect(() => {
     // Check for `code` in the URL or existing token in localStorage
-    console.log("Client ID:", process.env.REACT_APP_GOOGLE_CLIENT_ID);
-    console.log("Redirect URI:", process.env.REACT_APP_REDIRECT_URI);
+    console.log("Client ID:", process.env.REACT_APP_CLIENT_ID);
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
