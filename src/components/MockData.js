@@ -10,7 +10,7 @@ const generateTransaction = (id, isExpense, category, method, date) => ({
   notes: `Sample note for transaction ${id}`, // Add notes for the transaction
 });
 
-export const user = { name: "Kranthi", email: "kranthikusal@gmail.com" };
+export const user = { name: "Rikhila", email: "rikhilaannem@gmail.com" };
 
 const categories = ["Food", "Transport", "Entertainment", "Utilities"];
 const paymentMethods = ["Cash", "Credit Card", "Debit Card", "Bank Transfer"];
