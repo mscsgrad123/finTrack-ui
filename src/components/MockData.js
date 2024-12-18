@@ -1,14 +1,16 @@
 // src/mockData.js
 
-const generateTransaction = (id, isExpense, category, paymentMethod, date) => ({
+const generateTransaction = (id, isExpense, category, method, date) => ({
   id,
   amount: Math.floor(Math.random() * 100) + 1, // Random amount between 1 and 100
   category,
   type: isExpense ? "expense" : "income",
-  paymentMethod,
+  method,
   date,
-  description: `Sample note for transaction ${id}`, // Add notes for the transaction
+  notes: `Sample note for transaction ${id}`, // Add notes for the transaction
 });
+
+export const user = { name: "Kranthi", email: "kranthikusal@gmail.com" };
 
 const categories = ["Food", "Transport", "Entertainment", "Utilities"];
 const paymentMethods = ["Cash", "Credit Card", "Debit Card", "Bank Transfer"];

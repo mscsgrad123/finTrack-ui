@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../stylesheet/transactionlist.module.css";
 import {
   mockTransactions,
   mockCategories,
   mockPaymentMethods,
 } from "./MockData";
-
-const TransactionList = () => {
+import { BackEnd } from "./Constants";
+const TransactionList = ({ userId }) => {
   const sortedMockTransactions = [...mockTransactions].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
@@ -14,16 +14,50 @@ const TransactionList = () => {
   const [categories] = useState(mockCategories);
   const [paymentMethods] = useState(mockPaymentMethods);
   const [formData, setFormData] = useState({
-    id: null,
+    userId: userId,
     date: "",
     category: categories[0] || "",
     amount: "",
-    paymentMethod: paymentMethods[0] || "",
-    description: "",
+    method: paymentMethods[0] || "",
+    notes: "",
     type: "expense", // Updated to use 'type'
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false); // Track visibility of the form
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error state
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     setError(null);
+
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:8080/api/transactions?userId=${userId}`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch transactions");
+  //       }
+
+  //       const data = await response.json();
+  //       setTransactions(data); // Update transactions state with fetched data
+  //     } catch (err) {
+  //       setError(err.message); // Update error state
+  //     } finally {
+  //       setLoading(false); // Stop loading state
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   // Filter states
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -40,7 +74,7 @@ const TransactionList = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (isNaN(formData.amount) || formData.amount <= 0) {
@@ -48,12 +82,29 @@ const TransactionList = () => {
       return;
     }
 
-    if (!formData.category || !formData.paymentMethod) {
+    if (!formData.category || !formData.method) {
       alert("Please select both a category and a payment method.");
       return;
     }
 
     if (isEditing) {
+      // // const response = await fetch(
+      // //   `http://localhost:8080/api/transactions/${formData.id}`,
+      // //   {
+      // //     method: "PUT",
+      // //     headers: {
+      // //       "Content-Type": "application/json",
+      // //     },
+      // //     body: JSON.stringify(formData),
+      // //   }
+      // // );
+
+      // // if (!response.ok) {
+      // //   throw new Error("Failed to update transaction");
+      // // }
+
+      // const updatedTransaction = await response.json();
+
       const updatedTransactions = transactions.map((transaction) =>
         transaction.id === formData.id ? formData : transaction
       );
@@ -72,6 +123,39 @@ const TransactionList = () => {
           (a, b) => new Date(b.date) - new Date(a.date)
         )
       );
+      console.log(formData);
+      // setLoading(true);
+      // setError(null);
+
+      // try {
+      //   const response = await fetch("http://localhost:8080/api/transactions", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(formData),
+      //   });
+
+      //   if (!response.ok) {
+      //     throw new Error("Failed to add transaction");
+      //   }
+
+      //   const newTransaction = await response.json();
+
+      //   // Update the transaction list with the newly added transaction
+      //   setTransactions(
+      //     [...transactions, newTransaction].sort(
+      //       (a, b) => new Date(b.date) - new Date(a.date)
+      //     )
+      //   );
+      //   setSuccessMessage("Transaction added successfully!");
+      //   resetForm();
+      // } catch (err) {
+      //   setError(err.message);
+      //   console.error("Error adding transaction:", err);
+      // } finally {
+      //   setLoading(false);
+      // }
       setSuccessMessage("Transaction added successfully!");
     }
     resetForm();
@@ -83,10 +167,21 @@ const TransactionList = () => {
     setIsFormVisible(true); // Show the form when editing
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     setTransactions(
       transactions.filter((transaction) => transaction.id !== id)
     );
+    // const response = await fetch(
+    //   `http://localhost:8080/api/transactions/${formData.id}`,
+    //   {
+    //     method: "DELETE",
+    //   }
+    // );
+
+    // if (!response.ok) {
+    //   throw new Error("Failed to delete transaction");
+    // }
+
     setSuccessMessage("Transaction deleted successfully!");
     setTimeout(() => {
       setSuccessMessage(""); // Clear message after 3 seconds
@@ -95,12 +190,12 @@ const TransactionList = () => {
 
   const resetForm = () => {
     setFormData({
-      id: null,
+      userId: userId,
       date: "",
       category: categories[0] || "",
       amount: "",
-      paymentMethod: paymentMethods[0] || "",
-      description: "",
+      method: paymentMethods[0] || "",
+      notes: "",
       type: "expense", // Updated to use 'type'
     });
     setIsEditing(false);
@@ -117,10 +212,10 @@ const TransactionList = () => {
         .map(
           (transaction) =>
             `${transaction.date},${transaction.type},${transaction.category},${
-              transaction.paymentMethod
+              transaction.method
             },${transaction.type === "income" ? "+" : "-"}${
               transaction.amount
-            },${transaction.description}`
+            },${transaction.notes}`
         )
         .join("\n");
 
@@ -140,7 +235,7 @@ const TransactionList = () => {
         ? transaction.category === categoryFilter
         : true;
       const matchesPaymentMethod = paymentMethodFilter
-        ? transaction.paymentMethod === paymentMethodFilter
+        ? transaction.method === paymentMethodFilter
         : true;
       const matchesDateRange =
         (!startDateFilter ||
@@ -268,7 +363,7 @@ const TransactionList = () => {
             <label>Payment Method</label>
             <select
               name="paymentMethod"
-              value={formData.paymentMethod}
+              value={formData.method}
               onChange={handleInputChange}
               required
             >
@@ -290,8 +385,8 @@ const TransactionList = () => {
 
             <label>Notes</label>
             <textarea
-              name="description"
-              value={formData.description}
+              name="notes"
+              value={formData.notes}
               onChange={handleInputChange}
             ></textarea>
 
@@ -335,8 +430,8 @@ const TransactionList = () => {
                   : `-${transaction.amount}`}
               </td>
               <td>{transaction.category}</td>
-              <td>{transaction.paymentMethod}</td>
-              <td>{transaction.description}</td>
+              <td>{transaction.method}</td>
+              <td>{transaction.notes}</td>
               <td>
                 <button
                   className={styles.editButton}

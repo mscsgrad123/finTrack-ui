@@ -1,103 +1,113 @@
 .profileContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    padding: 20px;
-    height: 100vh; /* Full height of the viewport */
-    box-sizing: border-box;
-    background-color: #f9f9f9; /* Light background color */
-  }
-  
-  .profileHeader {
-    text-align: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  padding: 20px;
+  height: 100vh; /* Full height of the viewport */
+  box-sizing: border-box;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.profileHeader {
+  text-align: center;
+}
+
+.profileContent {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-around; /* Space around elements */
+  align-items: center; /* Center items vertically */
+  width: 100%; /* Full width */
+  flex: 1; /* Use remaining space */
+}
+
+.profilePicture {
+  flex: 1; /* Allow the picture to take up space */
+  text-align: center; /* Center image */
+}
+
+.picture {
+  width: 150px; /* Fixed size for the profile picture */
+  height: 150px; /* Fixed size for the profile picture */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Cover the area */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+.profileInfo {
+  flex: 2; /* Take up more space for info */
+  text-align: left; /* Align text to the left */
+  padding: 0 20px; /* Add padding */
+}
+
+.inputField,
+.textArea {
+  display: block; /* Block layout for inputs */
+  width: 100%; /* Full width */
+  margin: 10px 0; /* Spacing between inputs */
+  padding: 10px; /* Padding for inputs */
+  border: 1px solid #ccc; /* Border for inputs */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.textArea {
+  height: 80px; /* Fixed height for the text area */
+}
+
+.saveButton,
+.cancelButton {
+  margin-top: 10px; /* Space above the button */
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer on hover */
+}
+
+.saveButton {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white; /* Text color */
+}
+
+.cancelButton {
+  background-color: #dc3545; /* Bootstrap danger color */
+  color: white; /* Text color */
+  margin-left: 10px; /* Space between buttons */
+}
+
+.editButton {
+  margin-top: 20px; /* Space above the button */
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white; /* Text color */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.logoutButton {
+  margin-top: 20px; /* Space above the button */
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #ca193d; /* Bootstrap primary color */
+  color: white; /* Text color */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.editButton:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   .profileContent {
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-around; /* Space around elements */
-    align-items: center; /* Center items vertically */
-    width: 100%; /* Full width */
-    flex: 1; /* Use remaining space */
+    flex-direction: column; /* Stack elements on small screens */
+    align-items: center; /* Center align items */
   }
-  
-  .profilePicture {
-    flex: 1; /* Allow the picture to take up space */
-    text-align: center; /* Center image */
-  }
-  
-  .picture {
-    width: 150px; /* Fixed size for the profile picture */
-    height: 150px; /* Fixed size for the profile picture */
-    border-radius: 50%; /* Make it circular */
-    object-fit: cover; /* Cover the area */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-  }
-  
+
   .profileInfo {
-    flex: 2; /* Take up more space for info */
-    text-align: left; /* Align text to the left */
-    padding: 0 20px; /* Add padding */
+    text-align: center; /* Center text on small screens */
+    padding: 10px 0; /* Adjust padding */
   }
-  
-  .inputField,
-  .textArea {
-    display: block; /* Block layout for inputs */
-    width: 100%; /* Full width */
-    margin: 10px 0; /* Spacing between inputs */
-    padding: 10px; /* Padding for inputs */
-    border: 1px solid #ccc; /* Border for inputs */
-    border-radius: 4px; /* Rounded corners */
-  }
-  
-  .textArea {
-    height: 80px; /* Fixed height for the text area */
-  }
-  
-  .saveButton,
-  .cancelButton {
-    margin-top: 10px; /* Space above the button */
-    padding: 10px 20px; /* Padding for the button */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer on hover */
-  }
-  
-  .saveButton {
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white; /* Text color */
-  }
-  
-  .cancelButton {
-    background-color: #dc3545; /* Bootstrap danger color */
-    color: white; /* Text color */
-    margin-left: 10px; /* Space between buttons */
-  }
-  
-  .editButton {
-    margin-top: 20px; /* Space above the button */
-    padding: 10px 20px; /* Padding for the button */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white; /* Text color */
-    cursor: pointer; /* Pointer on hover */
-    transition: background-color 0.3s; /* Smooth transition */
-  }
-  
-  .editButton:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .profileContent {
-      flex-direction: column; /* Stack elements on small screens */
-      align-items: center; /* Center align items */
-    }
-  
-    .profileInfo {
-      text-align: center; /* Center text on small screens */
-      padding: 10px 0; /* Adjust padding */
-    }
-  }
-  
+}

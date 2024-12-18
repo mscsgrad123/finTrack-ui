@@ -128,9 +128,9 @@ const Dashboard = () => {
       (acc, method) => ({ ...acc, [method]: 0 }),
       {}
     );
-    transactions.forEach(({ type, paymentMethod, amount, date }) => {
+    transactions.forEach(({ type, method, amount, date }) => {
       if (type === "expense" && date >= startDate && date <= endDate) {
-        paymentTotals[paymentMethod] += amount;
+        paymentTotals[method] += amount;
       }
     });
     const colors = generateColors(Object.keys(paymentTotals).length);
@@ -172,9 +172,9 @@ const Dashboard = () => {
       (acc, method) => ({ ...acc, [method]: 0 }),
       {}
     );
-    transactions.forEach(({ type, paymentMethod, amount, date }) => {
+    transactions.forEach(({ type, method, amount, date }) => {
       if (type === "income" && date >= startDate && date <= endDate) {
-        incomePaymentTotals[paymentMethod] += amount;
+        incomePaymentTotals[method] += amount;
       }
     });
     const colors = generateColors(Object.keys(incomePaymentTotals).length);

@@ -1,13 +1,15 @@
 // Budgets.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../stylesheet/budgets.module.css";
 import { mockCategories, mockPaymentMethods } from "./MockData";
+import { jwtDecode } from "jwt-decode";
 
-const Budgets = () => {
+const Budgets = ({ userId }) => {
   const [categoryBudgets, setCategoryBudgets] = useState({});
-  const [paymentMethodBudgets, setPaymentMethodBudgets] = useState({});
   const categories = mockCategories;
-  const paymentMethods = mockPaymentMethods;
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleCategoryBudgetChange = (category, value) => {
     setCategoryBudgets((prev) => ({
@@ -16,18 +18,48 @@ const Budgets = () => {
     }));
   };
 
-  const handlePaymentMethodBudgetChange = (method, value) => {
-    setPaymentMethodBudgets((prev) => ({
-      ...prev,
-      [method]: value,
-    }));
+  const handleSaveBudgets = async () => {
+    const budgetsToSave = Object.entries(categoryBudgets).map(
+      ([category, amount]) => ({
+        category,
+        amount: parseFloat(amount),
+        userId: 1,
+      })
+    );
+
+    // try {
+    //   const response = await fetch(
+    //     "http://localhost:8080/api/budgets/save?userId=" + userId,
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(budgetsToSave),
+    //     }
+    //   );
+
+    //   if (response.ok) {
+    //     console.log("Budgets saved successfully.");
+    //     setIsEditing(false);
+    //   } else {
+    //     console.error("Failed to save budgets:", response.status);
+    //     setError("Failed to save budgets. Please try again later.");
+    //   }
+    // } catch (err) {
+    //   console.error("Error saving budgets:", err);
+    //   setError("Failed to save budgets. Please try again later.");
+    // }
+    setIsEditing(false);
   };
 
-  const handleSaveBudgets = () => {
-    // Logic to save budgets, e.g., send to backend
-    console.log("Category Budgets:", categoryBudgets);
-    console.log("Payment Method Budgets:", paymentMethodBudgets);
-  };
+  // if (isLoading) {
+  //   return <div>Loading budgets...</div>;
+  // }
+
+  if (error) {
+    return <div className={styles.error}>{error}</div>;
+  }
 
   return (
     <div className={styles.budgetsContainer}>
@@ -45,12 +77,17 @@ const Budgets = () => {
               onChange={(e) =>
                 handleCategoryBudgetChange(category, e.target.value)
               }
+              disabled={!isEditing}
             />
           </div>
         ))}
       </div>
 
-      <button onClick={handleSaveBudgets}>Save Budgets</button>
+      {!isEditing ? (
+        <button onClick={() => setIsEditing(true)}>Edit Budgets</button>
+      ) : (
+        <button onClick={handleSaveBudgets}>Save Budgets</button>
+      )}
     </div>
   );
 };

@@ -1,15 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../stylesheet/profile.module.css";
 import profilepic from "../stylesheet/profile.avif";
-
-const Profile = () => {
+import { oauthConfig } from "./Constants";
+import { user } from "./MockData";
+const Profile = ({ userId, setAuthToken }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [userData, setUserData] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
-    location: "New York, NY",
-    bio: "Software developer with a passion for building web applications.",
-  });
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [userData, setUserData] = useState(user);
+
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:8080/api/users/${userId}`
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error("User not found");
+  //       }
+  //       const data = await response.json();
+  //       console.log(data);
+  //       setError(null);
+  //       setUserData(await response.json());
+  //     } catch (err) {
+  //       setUserData(null);
+  //       setError(err.message);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
+
+  const handleLogout = () => {
+    // Clear local app state
+    setAuthToken(null);
+    localStorage.removeItem("authToken");
+    // Redirect to the OAuth provider's logout endpoint
+    const logoutUrl = `https://accounts.google.com/logout`; // Replace with the provider's logout URL
+    window.location.href = logoutUrl;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,25 +86,6 @@ const Profile = () => {
                   className={styles.inputField}
                 />
               </label>
-              <label>
-                Location:
-                <input
-                  type="text"
-                  name="location"
-                  value={userData.location}
-                  onChange={handleChange}
-                  className={styles.inputField}
-                />
-              </label>
-              <label>
-                Bio:
-                <textarea
-                  name="bio"
-                  value={userData.bio}
-                  onChange={handleChange}
-                  className={styles.textArea}
-                />
-              </label>
               <button type="submit" className={styles.saveButton}>
                 Save
               </button>
@@ -90,13 +101,14 @@ const Profile = () => {
             <>
               <h2>{userData.name}</h2>
               <p>Email: {userData.email}</p>
-              <p>Location: {userData.location}</p>
-              <p>Bio: {userData.bio}</p>
               <button
                 className={styles.editButton}
                 onClick={() => setIsEditing(true)}
               >
                 Edit Profile
+              </button>
+              <button className={styles.logoutButton} onClick={handleLogout}>
+                Logout
               </button>
             </>
           )}
